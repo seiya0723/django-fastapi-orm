@@ -4,3 +4,6 @@ local_settings.py
 media
 *.pem
 venv
+*.swp
+__pycache__
+__init__.py
