@@ -9,7 +9,7 @@ from asgiref.sync import sync_to_async
 
 @sync_to_async
 def get_topics():
-    return list(Topic.objects.all().values)
+    return list(Topic.objects.all().values())
 
 
 from fastapi import FastAPI
@@ -28,4 +28,16 @@ async def index():
     print("サーバー起動時のトピック")
 
     return { "topics": topics_cache }
+
+
+# Django側でTopicが書き換わった時、ここにリクエストを送り、データを再読込させる。
+@app.get("/refresh/")
+async def index():
+
+    global topics_cache
+    topics_cache = await get_topics()
+
+    return { "topics": topics_cache }
+
+
 
